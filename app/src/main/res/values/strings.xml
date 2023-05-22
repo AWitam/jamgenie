@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">JamGenie</string>
+    <string name="library_screen_title">Library</string>
+    <string name="home_screen_title">Home</string>
+
+    <!--    navigation-->
+    <string name="nav_home">home</string>
+    <string name="nav_library">library</string>
 </resources>
