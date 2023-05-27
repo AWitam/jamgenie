@@ -43,8 +43,8 @@ import java.util.Locale
 
 
 enum class Screen(val route: String) {
-    HOME("home"),
-    LIBRARY("library")
+    LIBRARY("library"),
+    HOME("home")
 }
 
 enum class Tabs(
@@ -52,8 +52,8 @@ enum class Tabs(
     val icon: ImageVector,
     val route: String,
 ) {
-    HOME(R.string.nav_home, Icons.Rounded.Home, Screen.HOME.name),
     LIBRARY(R.string.nav_library, Icons.Rounded.List, Screen.LIBRARY.name),
+    HOME(R.string.nav_home, Icons.Rounded.Home, Screen.HOME.name),
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,7 +88,7 @@ fun BottomBar(navController: NavController, tabs: Array<Tabs>) {
         ) {
             tabs.forEach { tab ->
                 NavigationBarItem(
-                    label = { Text(stringResource(tab.title).uppercase(Locale.getDefault())) },
+                    label = { Text(stringResource(tab.title).uppercase()) },
                     selected = currentRoute == tab.route,
                     onClick = {
                         if (tab.route != currentRoute) {
