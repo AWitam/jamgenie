@@ -10,5 +10,6 @@ enum class LibraryTab {
 
 data class LibraryUIState(
     val listItems: List<LibraryItem>,
-    val selectedTab: LibraryTab
+    val selectedTab: LibraryTab,
+    val searchQuery: String?
 )

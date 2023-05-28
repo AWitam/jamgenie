@@ -14,15 +14,19 @@ import io.jamgenie.ui.home.HomeScreen
 import io.jamgenie.ui.library.LibraryScreen
 
 enum class Routes(@StringRes val route: Int) {
-    HOME(R.string.nav_home),
-    LIBRARY(R.string.nav_library)
+    HOME(R.string.nav_home), LIBRARY(R.string.nav_library)
 }
 
 @Composable
-fun Navigation(navController: NavHostController, modifier: Modifier) {
-
+fun RootNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Routes.HOME.name) {
-        composable(Routes.HOME.name) { HomeScreen(modifier = Modifier.padding(16.dp)) }
-        composable(Routes.LIBRARY.name) { LibraryScreen(modifier = Modifier.padding(16.dp)) }
+        composable(Routes.HOME.name) {
+            HomeScreen(navController)
+        }
+        composable(Routes.LIBRARY.name) {
+            LibraryScreen(
+                navController
+            )
+        }
     }
 }
