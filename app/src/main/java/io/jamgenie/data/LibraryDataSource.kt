@@ -96,7 +96,7 @@ class LibraryDataSource {
         id = "R_1",
         creator = user1,
         title = "Brand new level routine",
-        description = "This routine is for brand new guitarists.",
+        description = "This routine is for brand new guitarists. It will help you get started.",
         practiceItems = listOf(
             practiceItem1,
             practiceItem2,
