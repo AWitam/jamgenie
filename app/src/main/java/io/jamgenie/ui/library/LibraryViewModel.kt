@@ -8,31 +8,25 @@ import kotlinx.coroutines.flow.asStateFlow
 
 
 class LibraryViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(LibraryUIState(emptyList(), LibraryTab.ALL, null))
+    private val _uiState =
+        MutableStateFlow(LibraryUIState(emptyList(), emptyList(), LibraryTab.ROUTINES, null))
     val uiState: StateFlow<LibraryUIState> = _uiState.asStateFlow()
 
     init {
-        val listItems = LibraryRepository().getAllLibraryItems()
-        _uiState.value = LibraryUIState(listItems, LibraryTab.ALL, null)
+        val routinesList = LibraryRepository().getAllRoutines()
+        val practiceItemsList = LibraryRepository().getAllPracticeItems()
+        _uiState.value = LibraryUIState(routinesList, practiceItemsList, LibraryTab.ROUTINES, null)
     }
 
     fun onTabSelected(tab: LibraryTab) {
-        if (tab === LibraryTab.ALL) {
-            _uiState.value = _uiState.value.copy(
-                selectedTab = tab,
-                listItems = LibraryRepository().getAllLibraryItems()
-            )
-        }
         if (tab === LibraryTab.ROUTINES) {
             _uiState.value = _uiState.value.copy(
-                selectedTab = tab,
-                listItems = LibraryRepository().getRoutines()
+                selectedTab = tab, routineListItems = LibraryRepository().getAllRoutines()
             )
         }
         if (tab === LibraryTab.PRACTICE_ITEMS) {
             _uiState.value = _uiState.value.copy(
-                selectedTab = tab,
-                listItems = LibraryRepository().getPracticeItems()
+                selectedTab = tab, practiceItemListItems = LibraryRepository().getAllPracticeItems()
             )
         }
     }

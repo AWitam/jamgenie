@@ -22,10 +22,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.jamgenie.R
-import io.jamgenie.data.LibraryItem
 import io.jamgenie.ui.components.LibraryItemCard
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import io.jamgenie.data.LibraryItem
 import io.jamgenie.ui.components.AppBottomBar
 
 
@@ -46,9 +46,9 @@ fun LibraryScreen(
         ) {
             LibraryTabRow(
                 selectedTab = uiState.selectedTab,
-                onTabSelected = { viewModel.onTabSelected(it) }
-            )
-            LibraryList(listItems = uiState.listItems)
+                onTabSelected = { viewModel.onTabSelected(it) })
+            LibraryList(listItems = (if (uiState.selectedTab == LibraryTab.ROUTINES) uiState.routineListItems else uiState.practiceItemListItems) as List<LibraryItem>,
+                onItemClick = { navController.navigate("library/${it.id}") })
 
         }
 
@@ -64,15 +64,12 @@ fun formatTabName(str: String): String {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LibraryTopBar() {
-    TopAppBar(
-        title = { Text(stringResource(id = R.string.library_screen_title)) },
-        actions = {
-            IconButton(onClick = { /* doSomething() */ }) {
-                Icon(Icons.Filled.Person, contentDescription = "Localized description")
-            }
-
+    TopAppBar(title = { Text(stringResource(id = R.string.library_screen_title)) }, actions = {
+        IconButton(onClick = { /* doSomething() */ }) {
+            Icon(Icons.Filled.Person, contentDescription = "Localized description")
         }
-    )
+
+    })
 }
 
 @Composable
@@ -83,11 +80,9 @@ fun LibraryTabRow(
     Box(modifier = Modifier.padding(horizontal = 16.dp)) {
         TabRow(selectedTabIndex = selectedTab.ordinal) {
             LibraryTab.values().forEach { tab ->
-                Tab(
-                    selected = selectedTab == tab,
+                Tab(selected = selectedTab == tab,
                     onClick = { onTabSelected(tab) },
-                    text = { Text(text = formatTabName(tab.name)) }
-                )
+                    text = { Text(text = formatTabName(tab.name)) })
             }
         }
 
@@ -96,13 +91,14 @@ fun LibraryTabRow(
 
 @Composable
 fun LibraryList(
+    onItemClick: (LibraryItem) -> Unit,
     modifier: Modifier = Modifier,
     listItems: List<LibraryItem>,
 ) {
     LazyColumn(modifier = modifier) {
         listItems.forEach { item ->
             item {
-                LibraryItemCard(item = item)
+                LibraryItemCard(item = item, onCardClick = { onItemClick(item) })
             }
         }
     }

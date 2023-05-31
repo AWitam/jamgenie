@@ -1,8 +1,8 @@
 package io.jamgenie.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
@@ -10,16 +10,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import io.jamgenie.data.LibraryItem
 import io.jamgenie.data.Level
+import io.jamgenie.data.LibraryItem
+import io.jamgenie.data.Routine
 import io.jamgenie.data.User
 
 @Composable
-fun <T : LibraryItem> LibraryItemCard(item: T) {
+fun <T : LibraryItem> LibraryItemCard(item: T, onCardClick: (itemId: String) -> Unit) {
 
     val duration = when (item) {
         is LibraryItem.Routine -> item.practiceItems.sumOf { it.durationInMinutes }
@@ -39,9 +38,10 @@ fun <T : LibraryItem> LibraryItemCard(item: T) {
     Card(
         modifier = Modifier
             .padding(16.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable(onClick = { onCardClick(item.id) })
 
-        ) {
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.height(IntrinsicSize.Min)
@@ -127,6 +127,7 @@ fun <T : LibraryItem> LibraryItemCard(item: T) {
 fun RoutineRoutineCardPreview() {
 
     LibraryItemCard(
+        onCardClick = {},
         item = LibraryItem.Routine(
             title = "Routine Title Very Long",
             description = "Routine Description Very Long Very Very long",
@@ -139,7 +140,7 @@ fun RoutineRoutineCardPreview() {
                 role = "admin",
                 username = "jake.johnson",
             ),
-            level = Level.BEGINNER
+            level = Level.BEGINNER,
         )
     )
 
@@ -150,8 +151,8 @@ fun RoutineRoutineCardPreview() {
 @Preview
 @Composable
 fun PracticeItemCardPreview() {
-
     LibraryItemCard(
+        onCardClick = {},
         item = LibraryItem.PracticeItem(
             title = "Practice Item Title Very Long",
             description = "Practice Item Description Very Long Very Very long",

@@ -39,52 +39,7 @@ sealed class LibraryItem(
 
 class LibraryRepository {
 
-    fun getAllLibraryItems(): List<LibraryItem> {
-        val allPracticeItems = LibraryDataSource().allPracticeItems.map { practiceItem ->
-            LibraryItem.PracticeItem(
-                id = practiceItem.id,
-                creator = practiceItem.creator,
-                title = practiceItem.title,
-                description = practiceItem.description,
-                level = practiceItem.level,
-                durationInMinutes = practiceItem.durationInMinutes,
-                image = practiceItem.image,
-                video = practiceItem.video,
-                isPublic = practiceItem.isPublic
-            )
-        }
-
-        val allRoutines = LibraryDataSource().allRoutines.map {
-            LibraryItem.Routine(
-                id = it.id,
-                creator = it.creator,
-                title = it.title,
-                description = it.description,
-                level = it.level,
-                thumbnail = it.thumbnail,
-                isPublic = it.isPublic,
-                popularity = it.popularity,
-                practiceItems = it.practiceItems.map { practiceItem ->
-                    LibraryItem.PracticeItem(
-                        id = practiceItem.id,
-                        creator = practiceItem.creator,
-                        title = practiceItem.title,
-                        description = practiceItem.description,
-                        level = practiceItem.level,
-                        durationInMinutes = practiceItem.durationInMinutes,
-                        image = practiceItem.image,
-                        video = practiceItem.video,
-                        isPublic = practiceItem.isPublic
-                    )
-                }
-
-            )
-        }
-
-        return allPracticeItems + allRoutines
-    }
-
-    fun getPracticeItems(): List<LibraryItem.PracticeItem> {
+    fun getAllPracticeItems(): List<LibraryItem.PracticeItem> {
         return LibraryDataSource().allPracticeItems.map { practiceItem ->
             LibraryItem.PracticeItem(
                 id = practiceItem.id,
@@ -100,7 +55,7 @@ class LibraryRepository {
         }
     }
 
-    fun getRoutines(): List<LibraryItem.Routine> {
+    fun getAllRoutines(): List<LibraryItem.Routine> {
         return LibraryDataSource().allRoutines.map {
             LibraryItem.Routine(
                 id = it.id,
@@ -128,6 +83,13 @@ class LibraryRepository {
             )
         }
     }
-}
 
+    fun getLibraryItem(libraryItemId: String): LibraryItem {
+        val allPracticeItems = getAllPracticeItems()
+        val allRoutines = getAllRoutines()
+
+        return allPracticeItems.find { it.id == libraryItemId } ?: allRoutines.find { it.id == libraryItemId }!!
+
+    }
+}
 
