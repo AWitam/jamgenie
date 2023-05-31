@@ -3,13 +3,13 @@ package io.jamgenie.ui.library
 import io.jamgenie.data.LibraryItem
 
 enum class LibraryTab {
-    ALL,
     ROUTINES,
     PRACTICE_ITEMS
 }
 
 data class LibraryUIState(
-    val listItems: List<LibraryItem>,
+    val routineListItems: List<LibraryItem.Routine>,
+    val practiceItemListItems: List<LibraryItem.PracticeItem>,
     val selectedTab: LibraryTab,
     val searchQuery: String?
 )

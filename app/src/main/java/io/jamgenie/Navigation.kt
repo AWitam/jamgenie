@@ -1,22 +1,29 @@
 package io.jamgenie
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+
 import io.jamgenie.ui.home.HomeScreen
 import io.jamgenie.ui.library.LibraryScreen
+import io.jamgenie.ui.library.item.LibraryItemScreen
+import io.jamgenie.ui.library.item.LibraryItemViewModel
 
 enum class Routes(@StringRes val route: Int) {
-    HOME(R.string.nav_home), LIBRARY(R.string.nav_library)
+    HOME(R.string.nav_home), LIBRARY(R.string.nav_library), LIBRARY_ITEM(R.string.nav_library_item),
+
 }
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun RootNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Routes.HOME.name) {
@@ -28,5 +35,22 @@ fun RootNavigation(navController: NavHostController) {
                 navController
             )
         }
+        composable(
+            "library/{itemId}", arguments = listOf(navArgument("itemId") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            val libraryItemViewModel: LibraryItemViewModel = viewModel(
+                factory = LibraryItemViewModel.provideFactory(
+                    owner = backStackEntry,
+                    defaultArgs = backStackEntry.arguments
+                )
+            )
+            LibraryItemScreen(
+                libraryItemViewModel,
+                onBackPress = { navController.popBackStack() }
+            )
+        }
+
     }
 }

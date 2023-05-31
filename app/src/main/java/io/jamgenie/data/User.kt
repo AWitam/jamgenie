@@ -1,4 +1,8 @@
 package io.jamgenie.data
 
-data class User (val username: String, val role: String){
+//import android.os.Parcelable
+//import kotlinx.parcelize.Parcelize
+//
+//@Parcelize
+data class User (val username: String, val role: String)  {
 }

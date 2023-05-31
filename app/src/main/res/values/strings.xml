@@ -6,4 +6,5 @@
     <!--    navigation-->
     <string name="nav_home">home</string>
     <string name="nav_library">library</string>
+    <string name="nav_library_item">library/{itemId}</string>
 </resources>
