@@ -7,4 +7,10 @@
     <string name="nav_home">home</string>
     <string name="nav_library">library</string>
     <string name="nav_library_item">library/{itemId}</string>
+
+    <!--    library item actions-->
+    <string name="library_item_action_practice">Practice now</string>
+    <string name="library_item_action_save_to_routines">Save to your routines</string>
+    <string name="library_item_action_save_and_edit">Save and edit</string>
+    <string name="library_item_items_list">Items in this practice routine:</string>
 </resources>

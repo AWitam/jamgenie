@@ -5,6 +5,8 @@ class LibraryDataSource {
     val user2 = User("stacy", "admin")
     val user3 = User("jane_smith", "artist")
 
+    val imageUrl1 = "https://images.pexels.com/photos/3987251/pexels-photo-3987251.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+    val imageUrl2 = "https://images.pexels.com/photos/2157171/pexels-photo-2157171.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
 
     private val practiceItem1 = PracticeItem(
         id = "PI_1",
@@ -14,7 +16,7 @@ class LibraryDataSource {
         durationInMinutes = 2,
         isPublic = true,
         level = null,
-        image = null,
+        imageUrl = imageUrl1,
         video = null
     )
 
@@ -27,7 +29,7 @@ class LibraryDataSource {
         durationInMinutes = 2,
         isPublic = true,
         level = Level.BRAND_NEW,
-        image = null,
+        imageUrl = imageUrl1,
         video = null
     )
 
@@ -40,7 +42,7 @@ class LibraryDataSource {
         durationInMinutes = 5,
         isPublic = true,
         level = Level.BRAND_NEW,
-        image = null,
+        imageUrl = imageUrl1,
         video = null
     )
 
@@ -52,7 +54,7 @@ class LibraryDataSource {
         durationInMinutes = 10,
         isPublic = true,
         level = null,
-        image = null,
+        imageUrl = imageUrl1,
         video = null
     )
 
@@ -64,7 +66,7 @@ class LibraryDataSource {
         durationInMinutes = 2,
         isPublic = true,
         level = Level.BEGINNER,
-        image = null,
+        imageUrl = imageUrl1,
         video = null
     )
 
@@ -76,7 +78,7 @@ class LibraryDataSource {
         durationInMinutes = 2,
         isPublic = true,
         level = Level.BEGINNER,
-        image = null,
+        imageUrl = imageUrl1,
         video = null
     )
 
@@ -88,7 +90,7 @@ class LibraryDataSource {
         durationInMinutes = 5,
         isPublic = true,
         level = Level.BEGINNER,
-        image = null,
+        imageUrl = imageUrl1,
         video = null
     )
 
@@ -105,7 +107,7 @@ class LibraryDataSource {
             practiceItem4
         ),
         level = Level.BRAND_NEW,
-        thumbnail = null,
+        imageUrl = imageUrl2,
         popularity = 0,
         isPublic = true
     )
@@ -124,7 +126,7 @@ class LibraryDataSource {
             practiceItem4
         ),
         level = Level.BEGINNER,
-        thumbnail = null,
+        imageUrl = imageUrl2,
         popularity = 0,
         isPublic = true
     )
