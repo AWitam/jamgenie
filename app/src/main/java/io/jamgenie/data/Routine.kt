@@ -7,7 +7,7 @@ data class Routine(
     val description: String?,
     val practiceItems: List<PracticeItem>,
     val level: Level?,
-    val thumbnail: String?,
+    val imageUrl: String?,
     val popularity : Int, // number of times this routine has been saved by users
     val isPublic: Boolean
 )

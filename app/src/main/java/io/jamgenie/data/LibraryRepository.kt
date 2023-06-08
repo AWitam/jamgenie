@@ -6,6 +6,7 @@ sealed class LibraryItem(
     open val title: String,
     open val description: String?,
     open val level: Level?,
+    open val imageUrl: String?,
     open val isPublic: Boolean
 ) {
 
@@ -16,10 +17,10 @@ sealed class LibraryItem(
         override val description: String?,
         override val level: Level?,
         override val isPublic: Boolean,
+        override val imageUrl: String?,
         val durationInMinutes: Int,
-        val image: String?,
         val video: String?,
-    ) : LibraryItem(id, creator, title, description, level, isPublic)
+    ) : LibraryItem(id, creator, title, description, level, imageUrl, isPublic)
 
     data class Routine(
         override val id: String,
@@ -28,11 +29,11 @@ sealed class LibraryItem(
         override val description: String?,
         override val level: Level?,
         override val isPublic: Boolean,
+        override val imageUrl: String?,
         val practiceItems: List<PracticeItem>,
-        val thumbnail: String?,
         val popularity: Int, // number of times this routine has been saved by users
 
-    ) : LibraryItem(id, creator, title, description, level, isPublic)
+    ) : LibraryItem(id, creator, title, description, level, imageUrl, isPublic)
 
 }
 
@@ -48,7 +49,7 @@ class LibraryRepository {
                 description = practiceItem.description,
                 level = practiceItem.level,
                 durationInMinutes = practiceItem.durationInMinutes,
-                image = practiceItem.image,
+                imageUrl = practiceItem.imageUrl,
                 video = practiceItem.video,
                 isPublic = practiceItem.isPublic
             )
@@ -63,7 +64,7 @@ class LibraryRepository {
                 title = it.title,
                 description = it.description,
                 level = it.level,
-                thumbnail = it.thumbnail,
+                imageUrl = it.imageUrl,
                 isPublic = it.isPublic,
                 popularity = it.popularity,
                 practiceItems = it.practiceItems.map { practiceItem ->
@@ -74,7 +75,7 @@ class LibraryRepository {
                         description = practiceItem.description,
                         level = practiceItem.level,
                         durationInMinutes = practiceItem.durationInMinutes,
-                        image = practiceItem.image,
+                        imageUrl = practiceItem.imageUrl,
                         video = practiceItem.video,
                         isPublic = practiceItem.isPublic
                     )
@@ -88,7 +89,8 @@ class LibraryRepository {
         val allPracticeItems = getAllPracticeItems()
         val allRoutines = getAllRoutines()
 
-        return allPracticeItems.find { it.id == libraryItemId } ?: allRoutines.find { it.id == libraryItemId }!!
+        return allPracticeItems.find { it.id == libraryItemId }
+            ?: allRoutines.find { it.id == libraryItemId }!!
 
     }
 }
