@@ -3,10 +3,9 @@
     <string name="library_screen_title">Library</string>
     <string name="home_screen_title">Home</string>
 
-    <!--    navigation-->
+    <!--    tab names -->
     <string name="nav_home">home</string>
     <string name="nav_library">library</string>
-    <string name="nav_library_item">library/{itemId}</string>
 
     <!--    library item actions-->
     <string name="library_item_action_practice">Practice now</string>
