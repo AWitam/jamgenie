@@ -16,25 +16,27 @@ import io.jamgenie.ui.library.LibraryScreen
 import io.jamgenie.ui.library.item.LibraryItemScreen
 import io.jamgenie.ui.library.item.LibraryItemViewModel
 
-enum class Routes(@StringRes val route: Int) {
-    HOME(R.string.nav_home), LIBRARY(R.string.nav_library), LIBRARY_ITEM(R.string.nav_library_item),
-
+object Routes {
+    const val HOME = "home"
+    const val LIBRARY = "library"
+    const val LIBRARY_ITEM = "library/{itemId}"
 }
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Composable
 fun RootNavigation(navController: NavHostController) {
-    NavHost(navController = navController, startDestination = Routes.HOME.name) {
-        composable(Routes.HOME.name) {
+    NavHost(navController = navController, startDestination = Routes.HOME) {
+        composable(route = Routes.HOME) {
             HomeScreen(navController)
         }
-        composable(Routes.LIBRARY.name) {
+        composable(route = Routes.LIBRARY) {
             LibraryScreen(
                 navController
             )
         }
         composable(
-            "library/{itemId}", arguments = listOf(navArgument("itemId") {
+            route = Routes.LIBRARY_ITEM,
+            arguments = listOf(navArgument("itemId") {
                 type = NavType.StringType
             })
         ) { backStackEntry ->

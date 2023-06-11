@@ -16,20 +16,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import io.jamgenie.R
+import io.jamgenie.Routes
 
-
-enum class Screen(val route: String) {
-    LIBRARY("library"),
-    HOME("home")
-}
 
 enum class Tabs(
     @StringRes val title: Int,
     val icon: ImageVector,
     val route: String,
 ) {
-    LIBRARY(R.string.nav_library, Icons.Rounded.List, Screen.LIBRARY.name),
-    HOME(R.string.nav_home, Icons.Rounded.Home, Screen.HOME.name),
+    LIBRARY(R.string.nav_library, Icons.Rounded.List, Routes.LIBRARY),
+    HOME(R.string.nav_home, Icons.Rounded.Home, Routes.HOME),
 }
 
 @Composable
