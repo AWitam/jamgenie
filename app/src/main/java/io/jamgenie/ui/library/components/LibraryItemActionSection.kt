@@ -23,6 +23,7 @@ import io.jamgenie.R
 import io.jamgenie.data.Level
 import io.jamgenie.data.LibraryItem
 import io.jamgenie.data.User
+import io.jamgenie.ui.library.previewRoutineItemWithNoPracticeItems
 
 enum class LibraryItemActionType {
     PRACTICE,
@@ -34,7 +35,6 @@ data class RoutineItemAction(
     val action: LibraryItemActionType,
     val icon: Int,
     @StringRes val label: Int,
-    val onClick: (type: LibraryItemActionType) -> Unit
 )
 
 val ROUTINE_ACTIONS = listOf(
@@ -42,20 +42,25 @@ val ROUTINE_ACTIONS = listOf(
         action = LibraryItemActionType.PRACTICE,
         icon = R.drawable.baseline_play_arrow_24,
         label = R.string.library_item_action_practice
-    ) {},
+    ),
     RoutineItemAction(
         action = LibraryItemActionType.SAVE_TO_ROUTINES,
         icon = R.drawable.baseline_bookmark_add_24,
         label = R.string.library_item_action_save_to_routines
-    ) {},
+    ),
     RoutineItemAction(
         action = LibraryItemActionType.SAVE_AND_EDIT,
         icon = R.drawable.baseline_mode_edit_24,
         label = R.string.library_item_action_save_and_edit
-    ) {})
+    )
+)
 
 @Composable
-fun LibraryItemActionSection(item: LibraryItem, modifier: Modifier = Modifier) {
+fun LibraryItemActionSection(
+    item: LibraryItem,
+    navigateToPractice: (itemId: String) -> Unit,
+    modifier: Modifier = Modifier
+) {
 
     val actions = when (item) {
         is LibraryItem.Routine ->
@@ -64,27 +69,28 @@ fun LibraryItemActionSection(item: LibraryItem, modifier: Modifier = Modifier) {
         is LibraryItem.PracticeItem -> emptyList()
     }
 
+
     Box() {
 
         Column() {
-            actions.forEach { action ->
+            actions.forEach {
                 Spacer(modifier = modifier.padding(4.dp))
                 Card(
                     shape = MaterialTheme.shapes.small,
                     modifier = modifier
                         .fillMaxWidth()
-                        .clickable(onClick = { action.onClick(action.action) })
+                        .clickable(onClick = { navigateToPractice(item.id) })
                 ) {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Image(
-                            painter = painterResource(id = action.icon),
-                            contentDescription = stringResource(id = action.label),
+                            painter = painterResource(id = it.icon),
+                            contentDescription = stringResource(id = it.label),
                             modifier = modifier.padding(16.dp),
                         )
                         Text(
-                            text = stringResource(id = action.label),
+                            text = stringResource(id = it.label),
                         )
                     }
                 }
@@ -94,24 +100,11 @@ fun LibraryItemActionSection(item: LibraryItem, modifier: Modifier = Modifier) {
     }
 }
 
-
 @Preview
 @Composable
 fun LibraryItemActionSectionPreview() {
     LibraryItemActionSection(
-        item = LibraryItem.Routine(
-            title = "Routine Title Very Long",
-            description = "Routine Description Very Long Very Very long",
-            imageUrl = null,
-            id = "1234",
-            practiceItems = emptyList(),
-            popularity = 0,
-            isPublic = true,
-            creator = User(
-                role = "admin",
-                username = "jake.johnson",
-            ),
-            level = Level.BEGINNER,
-        )
+        item = previewRoutineItemWithNoPracticeItems,
+        navigateToPractice = {},
     )
 }
