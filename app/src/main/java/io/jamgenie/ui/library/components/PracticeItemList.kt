@@ -14,8 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.jamgenie.data.LibraryItem
-import io.jamgenie.data.Level
-import io.jamgenie.data.User
+import io.jamgenie.ui.library.previewItemsList
 
 
 @Composable
@@ -57,36 +56,7 @@ fun PracticeItemsList(
 @Preview
 fun PracticeItemsListPreview() {
     PracticeItemsList(
-        practiceItems = listOf(
-            LibraryItem.PracticeItem(
-                id = "1",
-                title = "Practice Item 1",
-                description = "Practice Item 1 Description",
-                durationInMinutes = 10,
-                creator = User(
-                    role = "admin",
-                    username = "jake.johnson",
-                ),
-                level = Level.BEGINNER,
-                imageUrl = "https://example.com/image.jpg",
-                video = null,
-                isPublic = true,
-            ),
-            LibraryItem.PracticeItem(
-                id = "2",
-                title = "Practice Item 2",
-                description = "Practice Item 2 Description",
-                durationInMinutes = 20,
-                creator = User(
-                    role = "admin",
-                    username = "jake.johnson",
-                ),
-                level = Level.INTERMEDIATE,
-                imageUrl = "https://example.com/image.jpg",
-                video = null,
-                isPublic = true,
-            ),
-        )
+        practiceItems = previewItemsList
     )
 }
 

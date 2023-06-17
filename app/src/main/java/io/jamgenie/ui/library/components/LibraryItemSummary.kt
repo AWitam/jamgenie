@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import io.jamgenie.data.Level
 import io.jamgenie.data.LibraryItem
 import io.jamgenie.data.User
+import io.jamgenie.ui.library.previewRoutineItemWithNoPracticeItems
 import io.jamgenie.ui.utils.getLibraryItemSummary
 
 @Composable
@@ -79,19 +80,6 @@ fun removeUnderScores(text: String): String {
 @Composable
 fun LibraryItemSummaryPreview() {
     LibraryItemSummary(
-        item = LibraryItem.Routine(
-            title = "Routine Title Very Long",
-            description = "Routine Description Very Long Very Very long",
-            imageUrl = null,
-            id = "1234",
-            practiceItems = emptyList(),
-            popularity = 0,
-            isPublic = true,
-            creator = User(
-                role = "admin",
-                username = "jake.johnson",
-            ),
-            level = Level.BEGINNER,
-        )
+        item = previewRoutineItemWithNoPracticeItems
     )
 }

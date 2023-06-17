@@ -50,24 +50,27 @@ import io.jamgenie.data.User
 import io.jamgenie.ui.library.components.LibraryItemActionSection
 import io.jamgenie.ui.library.components.LibraryItemCard
 import io.jamgenie.ui.library.components.LibraryItemSummary
+import io.jamgenie.ui.library.previewRoutineItemWithPracticeItems
 import io.jamgenie.ui.utils.getLibraryItemSummary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LibraryItemScreen(
-    viewModel: LibraryItemViewModel, onBackPress: () -> Unit, modifier: Modifier = Modifier
+    viewModel: LibraryItemViewModel,
+    onBackPress: () -> Unit,
+    navigateToPractice: (itemId: String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val uiState = viewModel.uiState.collectAsState()
     Scaffold(
         topBar = { LibraryItemScreenTopBar(onBackIconClick = onBackPress) },
     ) {
         if (uiState.value.item != null) {
-            LibraryItemContent(uiState.value.item!!, onBackPress, it, modifier)
+            LibraryItemContent(uiState.value.item!!, onBackPress, navigateToPractice, it, modifier)
         } else {
             Text("Loading")
         }
     }
-
 
 }
 
@@ -76,6 +79,7 @@ fun LibraryItemScreen(
 fun LibraryItemContent(
     item: LibraryItem,
     onBackPress: () -> Unit,
+    navigateToPractice: (itemId: String) -> Unit,
     scaffoldPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
@@ -125,11 +129,8 @@ fun LibraryItemContent(
                     .height(140.dp)
                     .clip(MaterialTheme.shapes.extraSmall)
             ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(item.imageUrl)
-                        .crossfade(true)
-                        .build(),
+                AsyncImage(model = ImageRequest.Builder(LocalContext.current).data(item.imageUrl)
+                    .crossfade(true).build(),
                     placeholder = painterResource(R.drawable.image_placeholder),
                     contentDescription = item.description,
                     contentScale = ContentScale.FillWidth,
@@ -146,8 +147,7 @@ fun LibraryItemContent(
                             }
                         }
                         .fillMaxWidth()
-                        .fillMaxHeight()
-                )
+                        .fillMaxHeight())
 
                 Text(
                     text = item.title.uppercase(),
@@ -167,7 +167,7 @@ fun LibraryItemContent(
             }
             LibraryItemSummary(item = item, modifier = modifier.fillMaxWidth())
             Spacer(modifier = modifier.height(16.dp))
-            LibraryItemActionSection(item = item)
+            LibraryItemActionSection(item = item, navigateToPractice = navigateToPractice)
             Spacer(modifier = modifier.height(16.dp))
             if (itemSummary.totalPracticeItems !== null && itemSummary.totalPracticeItems > 0) {
 
@@ -202,18 +202,16 @@ fun LibraryItemContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LibraryItemScreenTopBar(onBackIconClick: () -> Unit) {
-    TopAppBar(title = {},
-        actions = {
-            IconButton(onClick = {}) {
-                Icon(Icons.Default.MoreVert, contentDescription = null)
-            }
-        },
-        navigationIcon = {
-            IconButton(onClick = onBackIconClick) {
-                Icon(Icons.Default.ArrowBack, contentDescription = null)
-            }
+    TopAppBar(title = {}, actions = {
+        IconButton(onClick = {}) {
+            Icon(Icons.Default.MoreVert, contentDescription = null)
+        }
+    }, navigationIcon = {
+        IconButton(onClick = onBackIconClick) {
+            Icon(Icons.Default.ArrowBack, contentDescription = null)
+        }
 
-        })
+    })
 
 }
 
@@ -222,50 +220,10 @@ fun LibraryItemScreenTopBar(onBackIconClick: () -> Unit) {
 @Composable
 fun LibraryItemScreenPreview() {
     Scaffold(topBar = { LibraryItemScreenTopBar(onBackIconClick = {}) }) {
-        LibraryItemContent(
-            item = LibraryItem.Routine(
-                title = "Routine Title Very Long",
-                description = "This practice routine is designed for beginners who are new to the instrument and want to develop a strong foundation. Let's get started!",
-                imageUrl = null,
-                id = "1234",
-                practiceItems = listOf(
-                    LibraryItem.PracticeItem(
-                        title = "Practice Item Title Very Long",
-                        description = "Practice Item Description Very Long Very Very long",
-                        imageUrl = null,
-                        id = "1234",
-                        video = null,
-                        isPublic = true,
-                        creator = User(
-                            role = "admin",
-                            username = "jake.johnson",
-                        ),
-                        level = Level.BEGINNER,
-                        durationInMinutes = 10
-                    ),
-                    LibraryItem.PracticeItem(
-                        title = "Practice Item Title Very Long",
-                        description = "Practice Item Description Very Long Very Very long",
-                        imageUrl = null,
-                        id = "1234",
-                        video = null,
-                        isPublic = true,
-                        creator = User(
-                            role = "admin",
-                            username = "jake.johnson",
-                        ),
-                        level = Level.BEGINNER,
-                        durationInMinutes = 10
-                    )
-                ),
-                popularity = 0,
-                isPublic = true,
-                creator = User(
-                    role = "admin",
-                    username = "jake.johnson",
-                ),
-                level = Level.BEGINNER,
-            ), scaffoldPadding = it, onBackPress = {})
+        LibraryItemContent(item = previewRoutineItemWithPracticeItems,
+            scaffoldPadding = it,
+            onBackPress = {},
+            navigateToPractice = {})
     }
 }
 
