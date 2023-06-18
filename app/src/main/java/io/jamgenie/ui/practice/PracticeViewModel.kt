@@ -1,14 +1,18 @@
 package io.jamgenie.ui.practice
 
+
 import android.os.Bundle
-import android.util.Log
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
 import io.jamgenie.data.LibraryItem
 import io.jamgenie.data.LibraryRepository
+import io.jamgenie.ui.practice.model.UIPracticeItem
 import io.jamgenie.ui.utils.CountdownTimer
+import io.jamgenie.ui.utils.getFormattedTime
+import io.jamgenie.ui.utils.secToMs
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,77 +20,97 @@ import kotlinx.coroutines.flow.asStateFlow
 
 data class PracticeUIState(
     val currentItem: LibraryItem.PracticeItem? = null,
+    val allItems: List<UIPracticeItem> = emptyList(),
     val isCountdownRunning: Boolean = false,
-    val countdownText: String = "00:00"
+    val timeRemaining: String,
+    val progress: Float = 100f,
+    val finished: Boolean = false
 )
-
-fun getFormattedTime(timeInMilliseconds: Long?): String {
-    val totalSeconds = timeInMilliseconds?.div(1000) ?: 0
-    val minutes = totalSeconds / 60
-    val seconds = totalSeconds % 60
-    return "%02d:%02d".format(minutes, seconds)
-}
-
-fun getDurationInMs(timeInMinutes: Int?): Long {
-    return timeInMinutes?.times(60)?.times(1000)?.toLong() ?: 0
-}
 
 
 class PracticeViewModel(
     savedStateHandle: SavedStateHandle, private val libraryRepository: LibraryRepository
 ) : ViewModel() {
-    private var timer: CountdownTimer
     private val libraryItemId: String = checkNotNull(savedStateHandle["itemId"])
+    private val routinePracticeItems = libraryRepository.getRoutinePracticeItems(libraryItemId)
+    private var currentItem = mutableStateOf(routinePracticeItems[0])
+    private var currentItemDurationInMs =
+        mutableStateOf(secToMs(currentItem.value.durationInSeconds))
 
-    private val _uiState = MutableStateFlow(PracticeUIState(null))
+    private val allItems = mutableStateOf(mapToAllUIItems(routinePracticeItems))
 
+    private val _uiState = MutableStateFlow(
+        PracticeUIState(
+            currentItem = currentItem.value,
+            allItems = allItems.value,
+            timeRemaining = getFormattedTime(currentItemDurationInMs.value)
+        )
+    )
     val uiState: StateFlow<PracticeUIState> = _uiState.asStateFlow()
 
+    private var timer: CountdownTimer
+
     init {
-        val currentItem = when (val item = libraryRepository.getLibraryItem(libraryItemId)) {
-            is LibraryItem.Routine -> item.practiceItems[0]
-            is LibraryItem.PracticeItem -> item
-            else -> null
-        }
-
-        timer = initializeTimer(currentItem)
-
-        _uiState.value = PracticeUIState(
-            currentItem,
-            false,
-            getFormattedTime(currentItem?.durationInMinutes?.times(60)?.times(1000)?.toLong() ?: 0)
-        )
+        timer = initializeTimer()
     }
 
 
-    private fun initializeTimer(currentItem: LibraryItem.PracticeItem?): CountdownTimer {
-        Log.d("initializeTimer", " ${currentItem?.durationInMinutes}")
-
+    private fun initializeTimer(): CountdownTimer {
         timer = object : CountdownTimer(
-            2 * 60 * 1000,
+            currentItemDurationInMs.value
         ) {
             override fun onTick(timeRemaining: Long) {
-                _uiState.value = PracticeUIState(
-                    currentItem, true, getFormattedTime(timeRemaining)
+                if (timeRemaining == 0L) {
+                    onFinish()
+                    return
+                }
+                val progressValue = (timeRemaining.toFloat() / currentItemDurationInMs.value)
+
+                _uiState.value = _uiState.value.copy(
+                    currentItem = currentItem.value,
+                    timeRemaining = getFormattedTime(timeRemaining),
+                    progress = progressValue
                 )
-                Log.d("after tick", "${_uiState.value}")
+
             }
 
             override fun onFinish() {
-                _uiState.value = PracticeUIState(
-                    currentItem, false, getFormattedTime(
-                        currentItem?.durationInMinutes?.times(60)?.times(1000)?.toLong() ?: 0
+                val finishedItem = currentItem.value
+                val finishedItemIndex = allItems.value.indexOfFirst { it.id == finishedItem.id }
+                val nextItemIndex = finishedItemIndex + 1
+                allItems.value =
+                    allItems.value.map { if (it.id === finishedItem.id) it.copy(isChecked = true) else it }
+                if (nextItemIndex >= allItems.value.size) {
+                    _uiState.value = _uiState.value.copy(
+                        currentItem = null,
+                        finished = true,
+                        allItems = allItems.value,
+                        isCountdownRunning = false,
+                        progress = 0f,
+                        timeRemaining = "00:00"
                     )
+                    return
+                }
+
+                currentItem.value = routinePracticeItems[nextItemIndex]
+                currentItemDurationInMs.value = secToMs(currentItem.value.durationInSeconds)
+                allItems.value =
+                    allItems.value.map { if (it.id === finishedItem.id) it.copy(isChecked = true) else it }
+
+                _uiState.value = PracticeUIState(
+                    currentItem = currentItem.value,
+                    allItems = allItems.value,
+                    false,
+                    getFormattedTime(currentItemDurationInMs.value),
                 )
+                timer = initializeTimer()
+
             }
-
         }
-
         return timer
     }
 
     fun onPlayPauseClicked() {
-
         if (timer.isTimerRunning() && timer.isTimerPaused()) {
             timer.resume()
             _uiState.value = _uiState.value.copy(isCountdownRunning = true)
@@ -107,6 +131,18 @@ class PracticeViewModel(
 
     }
 
+    private fun mapToAllUIItems(items: List<LibraryItem.PracticeItem>): List<UIPracticeItem> {
+        return items.map { practiceItem ->
+            UIPracticeItem(
+                id = practiceItem.id,
+                title = practiceItem.title,
+                description = practiceItem.description ?: "",
+                durationInMinutes = practiceItem.durationInSeconds,
+                isChecked = false,
+            )
+        }
+    }
+
 
     companion object {
         fun provideFactory(
@@ -124,5 +160,6 @@ class PracticeViewModel(
                 }
             }
     }
-
 }
+
+

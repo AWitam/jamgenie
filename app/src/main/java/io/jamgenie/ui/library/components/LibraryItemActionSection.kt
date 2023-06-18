@@ -20,10 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.jamgenie.R
-import io.jamgenie.data.Level
 import io.jamgenie.data.LibraryItem
-import io.jamgenie.data.User
-import io.jamgenie.ui.library.previewRoutineItemWithNoPracticeItems
+import io.jamgenie.ui.previewRoutineItemWithNoPracticeItems
 
 enum class LibraryItemActionType {
     PRACTICE,

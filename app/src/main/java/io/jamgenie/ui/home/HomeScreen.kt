@@ -11,10 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import io.jamgenie.R
-import io.jamgenie.ui.components.AppBottomBar
-import io.jamgenie.ui.library.LibraryList
-import io.jamgenie.ui.library.LibraryTabRow
-import io.jamgenie.ui.library.LibraryTopBar
+import io.jamgenie.ui.common.AppBottomBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

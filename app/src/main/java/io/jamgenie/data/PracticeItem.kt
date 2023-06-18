@@ -6,7 +6,7 @@ data class PracticeItem(
     val title: String,
     val description: String?,
     val level: Level?,
-    val durationInMinutes: Int,
+    val durationInSeconds: Int,
     val imageUrl: String?,
     val video: String?,
     val isPublic: Boolean

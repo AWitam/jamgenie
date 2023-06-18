@@ -1,5 +1,6 @@
 package io.jamgenie.ui.library.components
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
@@ -14,10 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import io.jamgenie.data.Level
 import io.jamgenie.data.LibraryItem
-import io.jamgenie.data.User
-import io.jamgenie.ui.library.previewRoutineItemWithNoPracticeItems
+import io.jamgenie.ui.previewRoutineItemWithNoPracticeItems
 import io.jamgenie.ui.utils.getLibraryItemSummary
 
 @Composable
@@ -44,9 +43,9 @@ fun LibraryItemSummary(item: LibraryItem, spacerWidth: Int = 8, modifier: Modifi
             )
             Spacer(modifier = Modifier.width(8.dp))
         }
-        if (itemSummary.durationInMinutes !== null) {
+        if (itemSummary.formattedDuration !== null) {
             Text(
-                text = itemSummary.durationInMinutes,
+                text = itemSummary.formattedDuration,
                 style = typography.labelSmall,
             )
         }
@@ -62,14 +61,10 @@ fun LibraryItemSummary(item: LibraryItem, spacerWidth: Int = 8, modifier: Modifi
             Text(
                 text = removeUnderScores(item.level.toString()),
                 style = typography.labelSmall,
-
-                )
-
+            )
         }
     }
     Spacer(modifier = Modifier.height(spacerWidth.dp))
-
-
 }
 
 fun removeUnderScores(text: String): String {

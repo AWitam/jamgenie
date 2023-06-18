@@ -1,4 +1,4 @@
-package io.jamgenie.ui.components
+package io.jamgenie.ui.common
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
