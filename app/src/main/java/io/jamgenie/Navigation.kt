@@ -31,8 +31,13 @@ object Routes {
 @Composable
 fun RootNavigation(navController: NavHostController) {
     NavHost(navController = navController, startDestination = Routes.HOME) {
-        composable(route = Routes.HOME) {
-            HomeScreen(navController)
+        composable(route = Routes.HOME) { backStackEntry ->
+            val homeViewModel: HomeViewModel = viewModel(
+                factory = HomeViewModel.provideFactory(
+                    owner = backStackEntry, defaultArgs = backStackEntry.arguments
+                )
+            )
+            HomeScreen(navController, onStartCurrentRoutine = { itemId -> navController.navigate("${Routes.PRACTICE}/${itemId}") }, homeViewModel, )
         }
         composable(route = Routes.LIBRARY) {
             LibraryScreen(

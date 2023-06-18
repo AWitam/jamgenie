@@ -1,7 +1,6 @@
 package io.jamgenie.ui.home
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
@@ -12,18 +11,15 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import io.jamgenie.R
 import io.jamgenie.ui.common.AppBottomBar
 import io.jamgenie.ui.home.components.CurrentPractice
 import io.jamgenie.ui.home.components.Greeting
@@ -32,7 +28,11 @@ import io.jamgenie.ui.home.components.RecentActivity
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewModel()) {
+fun HomeScreen(
+    navController: NavController,
+    onStartCurrentRoutine: (itemId: String) -> Unit,
+    viewModel: HomeViewModel = viewModel()
+) {
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(
@@ -46,7 +46,18 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel = viewMode
 
             Greeting(userName = uiState.user?.username ?: "")
             Spacer(modifier = Modifier.padding(24.dp))
-            CurrentPractice(currentPracticeTitle = "Routine title", onStartPractice = { /*TODO*/ })
+            CurrentPractice(
+                currentPracticeTitle = uiState.currentPracticeRoutineTitle,
+                onStartPractice = {
+                    uiState.user!!.currentPracticeRoutineId?.let { it1 ->
+                        onStartCurrentRoutine(
+                            it1
+                        )
+                    }
+
+
+                }
+            )
             Spacer(modifier = Modifier.padding(24.dp))
             RecentActivity(items = uiState.user?.recentActivity)
         }
@@ -68,5 +79,5 @@ fun HomeTopBarr() {
 @Preview
 @Composable
 fun HomeScreenPreview() {
-    HomeScreen(navController = NavController(LocalContext.current))
+    HomeScreen(navController = NavController(LocalContext.current), onStartCurrentRoutine = {})
 }
