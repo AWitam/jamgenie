@@ -1,4 +1,4 @@
-package io.jamgenie.data
+package io.jamgenie.data.library
 
 enum class Level {
     BRAND_NEW,

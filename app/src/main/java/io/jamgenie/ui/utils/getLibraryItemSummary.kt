@@ -1,6 +1,6 @@
 package io.jamgenie.ui.utils
 
-import io.jamgenie.data.LibraryItem
+import io.jamgenie.data.library.LibraryItem
 
 data class LibraryItemSummary(val formattedDuration: String?, val totalPracticeItems: Int?)
 

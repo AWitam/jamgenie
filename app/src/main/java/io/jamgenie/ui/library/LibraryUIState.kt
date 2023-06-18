@@ -1,6 +1,6 @@
 package io.jamgenie.ui.library
 
-import io.jamgenie.data.LibraryItem
+import io.jamgenie.data.library.LibraryItem
 
 enum class LibraryTab {
     ROUTINES,

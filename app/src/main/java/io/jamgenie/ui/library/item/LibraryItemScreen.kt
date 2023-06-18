@@ -44,7 +44,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import io.jamgenie.R
-import io.jamgenie.data.LibraryItem
+import io.jamgenie.data.library.LibraryItem
 import io.jamgenie.ui.library.components.LibraryItemActionSection
 import io.jamgenie.ui.library.components.LibraryItemCard
 import io.jamgenie.ui.library.components.LibraryItemSummary

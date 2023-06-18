@@ -5,8 +5,8 @@ import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.savedstate.SavedStateRegistryOwner
-import io.jamgenie.data.LibraryItem
-import io.jamgenie.data.LibraryRepository
+import io.jamgenie.data.library.LibraryItem
+import io.jamgenie.data.library.LibraryRepository
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -25,7 +25,7 @@ import io.jamgenie.R
 import io.jamgenie.ui.library.components.LibraryItemCard
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import io.jamgenie.data.LibraryItem
+import io.jamgenie.data.library.LibraryItem
 import io.jamgenie.ui.common.AppBottomBar
 
 

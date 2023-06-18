@@ -22,4 +22,11 @@
     <string name="practice_screen_alert_unsafe_go_back_dismiss">Cancel</string>
     <string name="practice_screen_alert_congratulations_title">Congratulations!</string>
     <string name="practice_screen_alert_congratulations_message">You have practiced all items in this routine!</string>
+
+
+    <!--    home screen -->
+    <string name="home_screen_current_practice">Ready to continue practicing?</string>
+    <string name="home_screen_current_practice_start">Start now</string>
+    <string name="home_screen_current_recent_activity">Your recent activity</string>
+    <string name="home_screen_current_recent_activity_empty">You have no recent activity. Go practice!</string>
 </resources>

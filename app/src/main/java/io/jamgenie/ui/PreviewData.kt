@@ -1,8 +1,8 @@
 package io.jamgenie.ui
 
-import io.jamgenie.data.Level
-import io.jamgenie.data.LibraryItem
-import io.jamgenie.data.User
+import io.jamgenie.data.library.Level
+import io.jamgenie.data.library.LibraryItem
+import io.jamgenie.data.home.User
 
 val previewPracticeItem1 = LibraryItem.PracticeItem(
     id = "1",
