@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.jamgenie.data.LibraryItem
-import io.jamgenie.ui.library.previewItemsList
+import io.jamgenie.ui.previewItemsList
 
 
 @Composable

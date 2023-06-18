@@ -2,21 +2,26 @@ package io.jamgenie.ui.utils
 
 import io.jamgenie.data.LibraryItem
 
-data class LibraryItemSummary(val durationInMinutes: String?, val totalPracticeItems: Int?)
+data class LibraryItemSummary(val formattedDuration: String?, val totalPracticeItems: Int?)
 
 fun getLibraryItemSummary(item: LibraryItem): LibraryItemSummary {
 
-    val duration = when (item) {
-        is LibraryItem.Routine -> item.practiceItems.sumOf { it.durationInMinutes }
-            .toString() + " min"
+    val duration: String = when (item) {
+        is LibraryItem.Routine -> {
+            val totalDurationInSeconds = item.practiceItems.sumOf { it.durationInSeconds }
+            formatMinSec(totalDurationInSeconds)
+        }
 
-        is LibraryItem.PracticeItem -> item.durationInMinutes.toString() + " min"
+        is LibraryItem.PracticeItem -> formatMinSec(item.durationInSeconds)
     }
+
 
     val totalPracticeItems = when (item) {
         is LibraryItem.Routine -> item.practiceItems.size
         else -> null
     }
 
-    return LibraryItemSummary(duration, totalPracticeItems)
+    return LibraryItemSummary(formattedDuration = duration, totalPracticeItems)
 }
+
+

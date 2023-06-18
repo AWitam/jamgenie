@@ -15,10 +15,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import io.jamgenie.data.Level
 import io.jamgenie.data.LibraryItem
-import io.jamgenie.data.User
 import io.jamgenie.R
+import io.jamgenie.ui.previewPracticeItem2
+import io.jamgenie.ui.previewRoutineItemWithPracticeItems
+import io.jamgenie.ui.utils.formatMinSec
 
 @Composable
 fun <T : LibraryItem> LibraryItemCard(
@@ -69,7 +70,7 @@ fun <T : LibraryItem> LibraryItemCard(
                 )
 
                 if (displayDuration && item is LibraryItem.PracticeItem) Text(
-                    text = item.durationInMinutes.toString() + " min",
+                    text = formatMinSec(item.durationInSeconds),
                     style = typography.labelSmall
                 )
 
@@ -78,10 +79,12 @@ fun <T : LibraryItem> LibraryItemCard(
                     style = typography.labelSmall,
                 )
 
-                if (displayFullSummary) LibraryItemSummary(
-                    item = item,
-                    modifier = modifier.fillMaxWidth()
-                )
+                if (displayFullSummary) {
+                    LibraryItemSummary(
+                        item = item,
+                        modifier = modifier.fillMaxWidth()
+                    )
+                }
 
                 Text(
                     text = item.description ?: "",
@@ -98,25 +101,9 @@ fun <T : LibraryItem> LibraryItemCard(
 @Preview
 @Composable
 fun RoutineRoutineCardPreview() {
-
     LibraryItemCard(
-        onCardClick = {}, item = LibraryItem.Routine(
-            title = "Routine Title Very Long",
-            description = "Routine Description Very Long Very Very long",
-            imageUrl = null,
-            id = "1234",
-            practiceItems = emptyList(),
-            popularity = 0,
-            isPublic = true,
-            creator = User(
-                role = "admin",
-                username = "jake.johnson",
-            ),
-            level = Level.BEGINNER,
-        )
+        onCardClick = {}, item = previewRoutineItemWithPracticeItems, displayFullSummary = true
     )
-
-
 }
 
 
@@ -124,19 +111,6 @@ fun RoutineRoutineCardPreview() {
 @Composable
 fun PracticeItemCardPreview() {
     LibraryItemCard(
-        onCardClick = {}, item = LibraryItem.PracticeItem(
-            title = "Practice Item Title Very Long",
-            description = "Practice Item Description Very Long Very Very long",
-            imageUrl = null,
-            id = "1234",
-            video = null,
-            isPublic = true,
-            creator = User(
-                role = "admin",
-                username = "jake.johnson",
-            ),
-            level = Level.BEGINNER,
-            durationInMinutes = 10
-        )
+        onCardClick = {}, item = previewPracticeItem2
     )
 }

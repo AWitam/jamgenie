@@ -44,13 +44,11 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import io.jamgenie.R
-import io.jamgenie.data.Level
 import io.jamgenie.data.LibraryItem
-import io.jamgenie.data.User
 import io.jamgenie.ui.library.components.LibraryItemActionSection
 import io.jamgenie.ui.library.components.LibraryItemCard
 import io.jamgenie.ui.library.components.LibraryItemSummary
-import io.jamgenie.ui.library.previewRoutineItemWithPracticeItems
+import io.jamgenie.ui.previewRoutineItemWithPracticeItems
 import io.jamgenie.ui.utils.getLibraryItemSummary
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -169,8 +167,8 @@ fun LibraryItemContent(
             Spacer(modifier = modifier.height(16.dp))
             LibraryItemActionSection(item = item, navigateToPractice = navigateToPractice)
             Spacer(modifier = modifier.height(16.dp))
-            if (itemSummary.totalPracticeItems !== null && itemSummary.totalPracticeItems > 0) {
 
+            if (itemSummary.totalPracticeItems !== null && itemSummary.totalPracticeItems > 0) {
                 Text(
                     text = stringResource(id = R.string.library_item_items_list),
                     style = typography.titleMedium
@@ -193,8 +191,6 @@ fun LibraryItemContent(
                 }
             }
         }
-
-
     }
 }
 

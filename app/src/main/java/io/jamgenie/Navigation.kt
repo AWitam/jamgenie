@@ -2,7 +2,6 @@ package io.jamgenie
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.annotation.StringRes
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -65,6 +64,8 @@ fun RootNavigation(navController: NavHostController) {
             )
             PracticeScreen(
                 viewModel = practiceViewModel,
+                onBackPress = { navController.popBackStack() },
+                onFinishedRoutine = { navController.navigate(Routes.HOME) }
             )
 
         }

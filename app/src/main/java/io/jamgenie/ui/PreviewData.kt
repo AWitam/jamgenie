@@ -1,4 +1,4 @@
-package io.jamgenie.ui.library
+package io.jamgenie.ui
 
 import io.jamgenie.data.Level
 import io.jamgenie.data.LibraryItem
@@ -8,7 +8,7 @@ val previewPracticeItem1 = LibraryItem.PracticeItem(
     id = "1",
     title = "Practice Item 1",
     description = "Practice Item 1 Description",
-    durationInMinutes = 10,
+    durationInSeconds = 10,
     creator = User(
         role = "admin",
         username = "jake.johnson",
@@ -23,7 +23,7 @@ val previewPracticeItem2 = LibraryItem.PracticeItem(
     id = "2",
     title = "Practice Item 2",
     description = "Practice Item 2 Description",
-    durationInMinutes = 20,
+    durationInSeconds = 20,
     creator = User(
         role = "admin",
         username = "jake.johnson",

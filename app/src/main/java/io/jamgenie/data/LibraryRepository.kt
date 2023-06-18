@@ -18,7 +18,7 @@ sealed class LibraryItem(
         override val level: Level?,
         override val isPublic: Boolean,
         override val imageUrl: String?,
-        val durationInMinutes: Int,
+        val durationInSeconds: Int,
         val video: String?,
     ) : LibraryItem(id, creator, title, description, level, imageUrl, isPublic)
 
@@ -48,7 +48,7 @@ class LibraryRepository {
                 title = practiceItem.title,
                 description = practiceItem.description,
                 level = practiceItem.level,
-                durationInMinutes = practiceItem.durationInMinutes,
+                durationInSeconds = practiceItem.durationInSeconds,
                 imageUrl = practiceItem.imageUrl,
                 video = practiceItem.video,
                 isPublic = practiceItem.isPublic
@@ -74,7 +74,7 @@ class LibraryRepository {
                         title = practiceItem.title,
                         description = practiceItem.description,
                         level = practiceItem.level,
-                        durationInMinutes = practiceItem.durationInMinutes,
+                        durationInSeconds = practiceItem.durationInSeconds,
                         imageUrl = practiceItem.imageUrl,
                         video = practiceItem.video,
                         isPublic = practiceItem.isPublic
@@ -92,6 +92,13 @@ class LibraryRepository {
         return allPracticeItems.find { it.id == libraryItemId }
             ?: allRoutines.find { it.id == libraryItemId }!!
 
+    }
+
+    fun getRoutinePracticeItems(itemId: String): List<LibraryItem.PracticeItem> {
+        return when (val item = getLibraryItem(itemId)) {
+            is LibraryItem.Routine -> item.practiceItems
+            is LibraryItem.PracticeItem -> throw IllegalStateException("Practice item cannot have practice items")
+        }
     }
 }
 

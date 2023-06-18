@@ -26,7 +26,7 @@ import io.jamgenie.ui.library.components.LibraryItemCard
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import io.jamgenie.data.LibraryItem
-import io.jamgenie.ui.components.AppBottomBar
+import io.jamgenie.ui.common.AppBottomBar
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -38,7 +38,6 @@ fun LibraryScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     Scaffold(topBar = { LibraryTopBar() }, bottomBar = { AppBottomBar(navController) }) { it ->
-
         Column(
             modifier = Modifier
                 .fillMaxHeight()
@@ -46,9 +45,8 @@ fun LibraryScreen(
         ) {
             LibraryTabRow(selectedTab = uiState.selectedTab,
                 onTabSelected = { viewModel.onTabSelected(it) })
-            LibraryList(listItems = (if (uiState.selectedTab == LibraryTab.ROUTINES) uiState.routineListItems else uiState.practiceItemListItems) as List<LibraryItem>,
+            LibraryList(listItems = (if (uiState.selectedTab == LibraryTab.ROUTINES) uiState.routineListItems else uiState.practiceItemListItems),
                 onItemClick = { navController.navigate("library/${it.id}") })
-
         }
 
     }
@@ -97,7 +95,12 @@ fun LibraryList(
     LazyColumn(modifier = modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
         listItems.forEach { item ->
             item {
-                LibraryItemCard(item = item, onCardClick = { onItemClick(item) })
+                LibraryItemCard(
+                    item = item,
+                    onCardClick = { onItemClick(item) },
+                    displayFullSummary = true,
+                    displayDuration = true,
+                )
             }
         }
     }

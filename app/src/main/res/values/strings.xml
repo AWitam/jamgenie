@@ -12,4 +12,14 @@
     <string name="library_item_action_save_to_routines">Save to your routines</string>
     <string name="library_item_action_save_and_edit">Save and edit</string>
     <string name="library_item_items_list">Items in this practice routine:</string>
+
+    <!-- Practice screen -->
+    <string name="practice_screen_now_practicing">Now practicing:</string>
+    <string name="practice_screen_items_in_routine">Items in this routine</string>
+    <string name="practice_screen_alert_unsafe_go_back_title">Are you sure you want to go back?</string>
+    <string name="practice_screen_alert_unsafe_go_back_message">You will loose your progress on this routine</string>
+    <string name="practice_screen_alert_unsafe_go_back_confirm">Go back</string>
+    <string name="practice_screen_alert_unsafe_go_back_dismiss">Cancel</string>
+    <string name="practice_screen_alert_congratulations_title">Congratulations!</string>
+    <string name="practice_screen_alert_congratulations_message">You have practiced all items in this routine!</string>
 </resources>
