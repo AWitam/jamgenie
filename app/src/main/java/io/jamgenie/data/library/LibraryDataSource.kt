@@ -1,4 +1,6 @@
-package io.jamgenie.data
+package io.jamgenie.data.library
+
+import io.jamgenie.data.home.User
 
 class LibraryDataSource {
     val user1 = User("john_doe", "admin")

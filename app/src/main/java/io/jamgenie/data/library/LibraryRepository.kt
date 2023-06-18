@@ -1,4 +1,6 @@
-package io.jamgenie.data
+package io.jamgenie.data.library
+
+import io.jamgenie.data.home.User
 
 sealed class LibraryItem(
     open val id: String,

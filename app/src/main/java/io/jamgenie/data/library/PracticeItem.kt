@@ -1,13 +1,15 @@
-package io.jamgenie.data
+package io.jamgenie.data.library
 
-data class Routine(
+import io.jamgenie.data.home.User
+
+data class PracticeItem(
     val id: String,
     val creator: User,
     val title: String,
     val description: String?,
-    val practiceItems: List<PracticeItem>,
     val level: Level?,
+    val durationInSeconds: Int,
     val imageUrl: String?,
-    val popularity : Int, // number of times this routine has been saved by users
+    val video: String?,
     val isPublic: Boolean
 )

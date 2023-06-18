@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import io.jamgenie.data.LibraryItem
+import io.jamgenie.data.library.LibraryItem
 import io.jamgenie.R
 import io.jamgenie.ui.previewPracticeItem2
 import io.jamgenie.ui.previewRoutineItemWithPracticeItems

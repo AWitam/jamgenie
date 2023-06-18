@@ -1,7 +1,7 @@
 package io.jamgenie.ui.library
 
 import androidx.lifecycle.ViewModel
-import io.jamgenie.data.LibraryRepository
+import io.jamgenie.data.library.LibraryRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
